@@ -1,0 +1,19 @@
+{
+  "title": "UITour Config",
+  "name": "uitour-config",
+  "version": "0.0.1",
+  "description": "Add-on for configuring UITour preferences.",
+  "repository": "https://github.com/alexgibson/uitour-config",
+  "main": "index.js",
+  "author": "Alex Gibson",
+  "engines": {
+    "firefox": ">=47.0"
+  },
+  "license": "MPL-2.0",
+  "keywords": [
+    "jetpack"
+  ],
+  "devDependencies": {
+    "eslint": "^3.0.1"
+  }
+}
