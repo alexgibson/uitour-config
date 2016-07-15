@@ -16,14 +16,6 @@ const UITOUR_ENABLED = 'browser.uitour.enabled';
 const REQUIRE_SECURE = 'browser.uitour.requireSecure';
 const TESTING_ORIGINS = 'browser.uitour.testingOrigins';
 
-/**
- * New profiles have no 'browser.uitour.testingOrigins' preference.
- * Create one if it does not exist, using an empty value.
- */
-if (!prefService.has(TESTING_ORIGINS)) {
-    prefService.set(TESTING_ORIGINS, '');
-}
-
 const button = ToggleButton({
     id: 'uitour-config',
     label: 'Configure UITour',
@@ -51,9 +43,10 @@ configPanel.port.on('toggle-require-secure', (state) => {
 });
 
 configPanel.port.on('add-to-whitelist', () => {
-    var host = utils.getHostURL(tabs.activeTab.url);
+    const host = utils.getHostURL(tabs.activeTab.url);
     if (host) {
-        prefService.set(TESTING_ORIGINS, host);
+        const newOrigins = utils.addToCommaString(getTestingOrigins(), host);
+        prefService.set(TESTING_ORIGINS, newOrigins);
     }
 });
 
@@ -74,4 +67,15 @@ function handleHide() {
     button.state('window', {
         checked: false
     });
+}
+
+/**
+ * New profiles have no 'browser.uitour.testingOrigins' preference.
+ * Create one if it does not exist, using an empty value.
+ */
+function getTestingOrigins() {
+    if (!prefService.has(TESTING_ORIGINS)) {
+        prefService.set(TESTING_ORIGINS, '');
+    }
+    return prefService.get(TESTING_ORIGINS);
 }
