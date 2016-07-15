@@ -5,21 +5,44 @@
 
 'use strict';
 
-const enabled = document.getElementById('enable-uitour');
-const disabled = document.getElementById('disable-uitour');
+const enableUITour = document.getElementById('enable-uitour');
+const disableUITour = document.getElementById('disable-uitour');
+const enableRequireSecure = document.getElementById('enable-require-secure');
+const disableRequireSecure = document.getElementById('disable-require-secure');
+const addToWhitelist = document.getElementById('add-to-whitelist');
 
-enabled.addEventListener('change', () => {
+enableUITour.addEventListener('change', () => {
     self.port.emit('toggle-uitour-enabled', true);
 });
 
-disabled.addEventListener('change', () => {
+disableUITour.addEventListener('change', () => {
     self.port.emit('toggle-uitour-enabled', false);
 });
 
-self.port.on('set-uitour-enabled', function(state) {
+self.port.on('set-uitour-enabled', (state) => {
     if (state) {
-        enabled.checked = true;
+        enableUITour.checked = true;
     } else {
-        disabled.checked = true;
+        disableUITour.checked = true;
     }
+});
+
+enableRequireSecure.addEventListener('change', () => {
+    self.port.emit('toggle-require-secure', true);
+});
+
+disableRequireSecure.addEventListener('change', () => {
+    self.port.emit('toggle-require-secure', false);
+});
+
+self.port.on('set-require-secure', (state) => {
+    if (state) {
+        enableRequireSecure.checked = true;
+    } else {
+        disableRequireSecure.checked = true;
+    }
+});
+
+addToWhitelist.addEventListener('click', () => {
+    self.port.emit('add-to-whitelist');
 });

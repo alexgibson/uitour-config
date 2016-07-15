@@ -5,14 +5,28 @@
   </head>
   <body>
     <form>
+      <h1>UITour config</h1>
       <fieldset>
-        <legend>UITour</legend>
+        <legend>Enabled</legend>
         <label>
-          <input type="radio" id="enable-uitour" name="enable-uitour"> Enabled
+          <input type="radio" id="enable-uitour" name="enable"> Enabled
         </label>
         <label>
-          <input type="radio" id="disable-uitour" name="enable-uitour"> Disabled
+          <input type="radio" id="disable-uitour" name="enable"> Disabled
         </label>
+      </fieldset>
+      <fieldset>
+        <legend>Require secure</legend>
+        <label>
+          <input type="radio" id="enable-require-secure" name="require-secure"> True
+        </label>
+        <label>
+          <input type="radio" id="disable-require-secure" name="require-secure"> False
+        </label>
+      </fieldset>
+      <fieldset>
+        <legend>Whitelist</legend>
+        <button id="add-to-whitelist" type="button">Add this site to whitelist</button>
       </fieldset>
     </form>
   </body>
