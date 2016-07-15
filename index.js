@@ -17,8 +17,6 @@ const UITOUR_ENABLED = 'browser.uitour.enabled';
 const REQUIRE_SECURE = 'browser.uitour.requireSecure';
 const TESTING_ORIGINS = 'browser.uitour.testingOrigins';
 
-let button;
-
 /**
  * New profiles have no 'browser.uitour.testingOrigins' preference.
  * Create one if it does not exist, using an empty value.
@@ -33,6 +31,9 @@ function getTestingOrigins() {
 /**
  * Add-on ToggleButton
  */
+
+let button;
+
 function setToggleButton() {
     button = ToggleButton({
         id: 'uitour-config',
@@ -95,8 +96,10 @@ configPanel.port.on('add-to-whitelist', () => {
     }
 });
 
-// By AMO policy global preferences must be changed back to their original value
-// when the add-on is unloaded.
+/**
+ * By AMO policy global preferences must be changed back to
+ * their original value when the add-on is unloaded.
+ */
 unload(function() {
     prefService.reset(UITOUR_ENABLED);
     prefService.reset(REQUIRE_SECURE);
