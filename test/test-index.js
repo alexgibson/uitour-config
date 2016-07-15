@@ -14,6 +14,9 @@ exports.testGetHostURL = function(assert) {
 
     url = 'http://127.0.0.8000/en-US/';
     assert.equal(utils.getHostURL(url), 'http://127.0.0.8000');
+
+    url = 'about:home';
+    assert.equal(utils.getHostURL(url), null);
 };
 
 testRunner.run(exports);
