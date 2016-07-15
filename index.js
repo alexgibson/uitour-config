@@ -8,6 +8,7 @@
 const self = require('sdk/self');
 const tabs = require('sdk/tabs');
 const prefService = require('sdk/preferences/service');
+const { when: unload } = require('sdk/system/unload');
 const { ToggleButton } = require('sdk/ui/button/toggle');
 const { Panel } = require('sdk/panel');
 const utils = require('lib/utils.js');
@@ -92,4 +93,12 @@ configPanel.port.on('add-to-whitelist', () => {
         const newOrigins = utils.addToCommaString(getTestingOrigins(), host);
         prefService.set(TESTING_ORIGINS, newOrigins);
     }
+});
+
+// By AMO policy global preferences must be changed back to their original value
+// when the add-on is unloaded.
+unload(function() {
+    prefService.reset(UITOUR_ENABLED);
+    prefService.reset(REQUIRE_SECURE);
+    prefService.reset(TESTING_ORIGINS);
 });
