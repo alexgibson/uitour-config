@@ -36,7 +36,7 @@ exports.testAddToCommaString = (assert) => {
 
     commaString = 'https://www.allizom.org,https://www-demo1.allizom.org';
     assert.equal(utils.addToCommaString(null, commaString), commaString,
-        'Falsey items should not get added');
+        'Falsy values should not get added');
 };
 
 testRunner.run(exports);
