@@ -1,4 +1,7 @@
 #UITour Config
+
+[![Build Status](https://travis-ci.org/alexgibson/uitour-config.png?branch=master)](https://travis-ci.org/alexgibson/uitour-config)
+
 A Firefox add-on to configure UITour preferences for easier development, testing and debugging.
 
 ##Contributing
