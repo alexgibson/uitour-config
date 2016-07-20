@@ -61,6 +61,8 @@ setToggleButton();
  * Add-on UI Panel
  */
 const configPanel = Panel({
+    width: 300,
+    height: 350,
     contentURL: self.data.url('panel.html'),
     contentScriptFile: self.data.url('panel.js'),
     onShow: handleConfigPanelShow,
@@ -71,6 +73,7 @@ const configPanel = Panel({
 function handleConfigPanelShow() {
     configPanel.port.emit('set-uitour-enabled', prefService.get(UITOUR_ENABLED));
     configPanel.port.emit('set-require-secure', prefService.get(REQUIRE_SECURE));
+    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
 }
 
 // when the panel is hidden make sure the button state is also unchecked.
@@ -93,6 +96,7 @@ configPanel.port.on('add-to-whitelist', () => {
     if (host) {
         const newOrigins = utils.addToCommaString(getTestingOrigins(), host);
         prefService.set(TESTING_ORIGINS, newOrigins);
+        configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
     }
 });
 

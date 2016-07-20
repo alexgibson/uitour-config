@@ -10,6 +10,7 @@ const disableUITour = document.getElementById('disable-uitour');
 const enableRequireSecure = document.getElementById('enable-require-secure');
 const disableRequireSecure = document.getElementById('disable-require-secure');
 const addToWhitelist = document.getElementById('add-to-whitelist');
+const whitelist = document.getElementById('whitelist');
 
 enableUITour.addEventListener('change', () => {
     self.port.emit('toggle-uitour-enabled', true);
@@ -40,6 +41,15 @@ self.port.on('set-require-secure', (state) => {
         enableRequireSecure.checked = true;
     } else {
         disableRequireSecure.checked = true;
+    }
+});
+
+self.port.on('set-testing-origins', (array) => {
+    whitelist.value = '';
+    if (array.length) {
+        array.forEach((item) => {
+            whitelist.value += `${item} \n`;
+        });
     }
 });
 
