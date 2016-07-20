@@ -15,5 +15,8 @@
   ],
   "devDependencies": {
     "eslint": "^3.0.1"
+  },
+  "scripts": {
+    "test": "jpm test"
   }
 }
