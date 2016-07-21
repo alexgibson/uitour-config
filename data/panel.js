@@ -45,10 +45,18 @@ self.port.on('set-require-secure', (state) => {
 });
 
 self.port.on('set-testing-origins', (array) => {
-    whitelist.value = '';
     if (array.length) {
-        array.forEach((item) => {
-            whitelist.value += `${item} \n`;
+        
+        // Clear the current list of options before updating from array.
+        for (let i = 0; i < whitelist.options.length; i++) {
+            whitelist.options[i] = null;
+        }
+
+        array.forEach((index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.innerText = index;
+            whitelist.appendChild(option);
         });
     }
 });
