@@ -17,6 +17,7 @@
     "eslint": "^3.0.1"
   },
   "scripts": {
-    "jpm-travis": "jpm --binary `which firefox` test -v"
+    "jpm-travis": "jpm --binary `which firefox` test -v",
+    "lint": "./node_modules/.bin/eslint ./"
   }
 }

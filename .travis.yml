@@ -12,7 +12,8 @@ before_install:
 
 before_script:
   - firefox -v
-  - npm install jpm -g
+  - npm install -g jpm@v1.1.0
 
 script:
+  - npm run lint
   - npm run jpm-travis
