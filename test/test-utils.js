@@ -43,6 +43,20 @@ exports.testAddToCommaString = (assert) => {
         'Falsy values should not get added');
 };
 
+exports.testRemoveFromCommaString = (assert) => {
+    let commaString = 'https://www.allizom.org,https://www-demo1.allizom.org';
+
+    assert.strictEqual(utils.removeFromCommaString('https://www.allizom.org', commaString),
+        'https://www-demo1.allizom.org',
+        'Should remove a value from comma string as expected');
+
+    commaString = 'https://www.allizom.org';
+
+    assert.strictEqual(utils.removeFromCommaString('https://www.allizom.org', commaString),
+        '',
+        'Should return an empty string if single value is removed.');
+};
+
 exports.testArrayFromCommaString = (assert) => {
     assert.strictEqual(utils.arrayFromCommaString('').length, 0,
         'Array length is as expected');
@@ -50,6 +64,22 @@ exports.testArrayFromCommaString = (assert) => {
         'Array length is as expected');
     assert.strictEqual(utils.arrayFromCommaString('https://www-demo1.allizom.org,https://www.allizom.org').length, 2,
         'Array length is as expected');
+};
+
+exports.testCommaStringFromArray = (assert) => {
+    let arr = [
+        'https://www-demo1.allizom.org',
+        'https://www.allizom.org'
+    ];
+
+    assert.strictEqual(utils.commaStringFromArray(arr), 'https://www-demo1.allizom.org,https://www.allizom.org',
+        'Should return comma string from array as expected.');
+
+    arr = 'https://www-demo1.allizom.org,https://www.allizom.org';
+
+    assert.throws(function() {
+        utils.commaStringFromArray(arr);
+    }, 'Should throw an error if not passed an array.');
 };
 
 testRunner.run(exports);
