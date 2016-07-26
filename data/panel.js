@@ -13,7 +13,12 @@ const whitelist = document.getElementById('whitelist');
 const addCurrentSite = document.getElementById('add-current-site');
 const removeSelected = document.getElementById('remove-selected');
 const removeAll = document.getElementById('remove-all');
+const logLevel = document.getElementById('log-level');
 
+
+/*******************************************************
+ * browser.uitour.enabled'
+ */
 enableUITour.addEventListener('change', () => {
     self.port.emit('toggle-uitour-enabled', true);
 });
@@ -23,13 +28,13 @@ disableUITour.addEventListener('change', () => {
 });
 
 self.port.on('set-uitour-enabled', (state) => {
-    if (state) {
-        enableUITour.checked = true;
-    } else {
-        disableUITour.checked = true;
-    }
+    enableUITour.checked = (state) ? true : false;
 });
 
+
+/*******************************************************
+ * browser.uitour.requireSecure
+ */
 enableRequireSecure.addEventListener('change', () => {
     self.port.emit('toggle-require-secure', true);
 });
@@ -39,13 +44,13 @@ disableRequireSecure.addEventListener('change', () => {
 });
 
 self.port.on('set-require-secure', (state) => {
-    if (state) {
-        enableRequireSecure.checked = true;
-    } else {
-        disableRequireSecure.checked = true;
-    }
+    enableRequireSecure.checked = (state) ? true : false;
 });
 
+
+/*******************************************************
+ * browser.uitour.testingOrigins
+ */
 self.port.on('set-testing-origins', (array) => {
     // Clear the current list of origins before updating.
     while (whitelist.options.length) {
@@ -75,4 +80,20 @@ removeSelected.addEventListener('click', () => {
 
 removeAll.addEventListener('click', () => {
     self.port.emit('remove-all');
+});
+
+
+/*******************************************************
+ * browser.uitour.loglevel
+ */
+logLevel.addEventListener('change', (e) => {
+    self.port.emit('change-log-level', e.target.value);
+});
+
+self.port.on('set-log-level', (state) => {
+    for (let option of logLevel.options) {
+        if (option.value === state) {
+            option.selected = true;
+        }
+    }
 });

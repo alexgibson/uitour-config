@@ -16,6 +16,7 @@ const utils = require('lib/utils.js');
 const UITOUR_ENABLED = 'browser.uitour.enabled';
 const REQUIRE_SECURE = 'browser.uitour.requireSecure';
 const TESTING_ORIGINS = 'browser.uitour.testingOrigins';
+const LOG_LEVEL = 'browser.uitour.loglevel';
 
 /**
  * New profiles have no 'browser.uitour.testingOrigins' preference.
@@ -73,6 +74,7 @@ const configPanel = Panel({
 function handleConfigPanelShow() {
     configPanel.port.emit('set-uitour-enabled', prefService.get(UITOUR_ENABLED));
     configPanel.port.emit('set-require-secure', prefService.get(REQUIRE_SECURE));
+    configPanel.port.emit('set-log-level', prefService.get(LOG_LEVEL));
     updateTestingOriginsList();
 }
 
@@ -115,6 +117,10 @@ configPanel.port.on('remove-all', () => {
     updateTestingOriginsList();
 });
 
+configPanel.port.on('change-log-level', (value) => {
+    prefService.set(LOG_LEVEL, value);
+});
+
 /**
  * By AMO policy global preferences must be changed back to
  * their original value when the add-on is unloaded.
@@ -123,4 +129,5 @@ unload(function() {
     prefService.reset(UITOUR_ENABLED);
     prefService.reset(REQUIRE_SECURE);
     prefService.reset(TESTING_ORIGINS);
+    prefService.reset(LOG_LEVEL);
 });
