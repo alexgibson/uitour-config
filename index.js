@@ -94,10 +94,16 @@ configPanel.port.on('toggle-require-secure', (state) => {
 configPanel.port.on('add-to-whitelist', () => {
     const host = utils.getHostURL(tabs.activeTab.url);
     if (host) {
-        const newOrigins = utils.addToCommaString(getTestingOrigins(), host);
+        const newOrigins = utils.addToCommaString(host, getTestingOrigins());
         prefService.set(TESTING_ORIGINS, newOrigins);
         configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
     }
+});
+
+configPanel.port.on('remove-selected', (value) => {
+    const newOrigins = utils.removeFromCommaString(value, getTestingOrigins());
+    prefService.set(TESTING_ORIGINS, newOrigins);
+    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
 });
 
 /**

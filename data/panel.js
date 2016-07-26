@@ -9,8 +9,9 @@ const enableUITour = document.getElementById('enable-uitour');
 const disableUITour = document.getElementById('disable-uitour');
 const enableRequireSecure = document.getElementById('enable-require-secure');
 const disableRequireSecure = document.getElementById('disable-require-secure');
-const addToWhitelist = document.getElementById('add-to-whitelist');
 const whitelist = document.getElementById('whitelist');
+const addToWhitelist = document.getElementById('add-to-whitelist');
+const removeSelected = document.getElementById('remove-selected');
 
 enableUITour.addEventListener('change', () => {
     self.port.emit('toggle-uitour-enabled', true);
@@ -45,13 +46,12 @@ self.port.on('set-require-secure', (state) => {
 });
 
 self.port.on('set-testing-origins', (array) => {
-    if (array.length) {
-        
-        // Clear the current list of options before updating from array.
-        for (let i = 0; i < whitelist.options.length; i++) {
-            whitelist.options[i] = null;
-        }
+    // Clear the current list of origins before updating.
+    while (whitelist.options.length) {
+        whitelist.remove(0);
+    }
 
+    if (array.length) {
         array.forEach((index) => {
             const option = document.createElement('option');
             option.value = index;
@@ -63,4 +63,11 @@ self.port.on('set-testing-origins', (array) => {
 
 addToWhitelist.addEventListener('click', () => {
     self.port.emit('add-to-whitelist');
+});
+
+removeSelected.addEventListener('click', () => {
+    const selected = whitelist.options[whitelist.selectedIndex].value;
+    if (selected) {
+        self.port.emit('remove-selected', selected);
+    }
 });
