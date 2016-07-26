@@ -12,24 +12,9 @@ const { when: unload } = require('sdk/system/unload');
 const { ToggleButton } = require('sdk/ui/button/toggle');
 const { Panel } = require('sdk/panel');
 const utils = require('lib/utils.js');
+const prefs = require('lib/prefs.js');
 
-const UITOUR_ENABLED = 'browser.uitour.enabled';
-const REQUIRE_SECURE = 'browser.uitour.requireSecure';
-const TESTING_ORIGINS = 'browser.uitour.testingOrigins';
-const LOG_LEVEL = 'browser.uitour.loglevel';
-
-/**
- * New profiles have no 'browser.uitour.testingOrigins' preference.
- * Create one if it does not exist, using an empty value.
- */
-function getTestingOrigins() {
-    if (!prefService.has(TESTING_ORIGINS)) {
-        prefService.set(TESTING_ORIGINS, '');
-    }
-    return prefService.get(TESTING_ORIGINS);
-}
-
-/**
+/*******************************************************
  * Add-on ToggleButton
  */
 
@@ -58,7 +43,7 @@ function handleToggleButtonChange(state) {
 
 setToggleButton();
 
-/**
+/*******************************************************
  * Add-on UI Panel
  */
 const configPanel = Panel({
@@ -72,10 +57,10 @@ const configPanel = Panel({
 
 // when the panel is shown show the current values
 function handleConfigPanelShow() {
-    configPanel.port.emit('set-uitour-enabled', prefService.get(UITOUR_ENABLED));
-    configPanel.port.emit('set-require-secure', prefService.get(REQUIRE_SECURE));
-    configPanel.port.emit('set-log-level', prefService.get(LOG_LEVEL));
-    updateTestingOriginsList();
+    configPanel.port.emit('set-uitour-enabled', prefService.get(prefs.UITOUR_ENABLED));
+    configPanel.port.emit('set-require-secure', prefService.get(prefs.REQUIRE_SECURE));
+    configPanel.port.emit('set-log-level', prefService.get(prefs.LOG_LEVEL));
+    updateTestingOriginsUI();
 }
 
 // when the panel is hidden make sure the button state is also unchecked.
@@ -85,40 +70,55 @@ function handleConfigPanelHide() {
     });
 }
 
-function updateTestingOriginsList() {
-    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
-}
-
+/*******************************************************
+ * browser.uitour.enabled'
+ */
 configPanel.port.on('toggle-uitour-enabled', (state) => {
-    prefService.set(UITOUR_ENABLED, state);
+    prefService.set(prefs.UITOUR_ENABLED, state);
 });
 
+
+/*******************************************************
+ * browser.uitour.requireSecure
+ */
 configPanel.port.on('toggle-require-secure', (state) => {
-    prefService.set(REQUIRE_SECURE, state);
+    prefService.set(prefs.REQUIRE_SECURE, state);
 });
+
+
+/*******************************************************
+ * browser.uitour.testingOrigins
+ */
+function updateTestingOriginsUI() {
+    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(utils.getTestingOrigins()));
+}
 
 configPanel.port.on('add-to-whitelist', () => {
     const host = utils.getHostURL(tabs.activeTab.url);
     if (host) {
-        const newOrigins = utils.addToCommaString(host, getTestingOrigins());
-        prefService.set(TESTING_ORIGINS, newOrigins);
-        updateTestingOriginsList();
+        const newOrigins = utils.addToCommaString(host, utils.getTestingOrigins());
+        prefService.set(prefs.TESTING_ORIGINS, newOrigins);
+        updateTestingOriginsUI();
     }
 });
 
 configPanel.port.on('remove-selected', (value) => {
-    const newOrigins = utils.removeFromCommaString(value, getTestingOrigins());
-    prefService.set(TESTING_ORIGINS, newOrigins);
-    updateTestingOriginsList();
+    const newOrigins = utils.removeFromCommaString(value, utils.getTestingOrigins());
+    prefService.set(prefs.TESTING_ORIGINS, newOrigins);
+    updateTestingOriginsUI();
 });
 
 configPanel.port.on('remove-all', () => {
-    prefService.reset(TESTING_ORIGINS);
-    updateTestingOriginsList();
+    prefService.reset(prefs.TESTING_ORIGINS);
+    updateTestingOriginsUI();
 });
 
+
+/*******************************************************
+ * browser.uitour.loglevel
+ */
 configPanel.port.on('change-log-level', (value) => {
-    prefService.set(LOG_LEVEL, value);
+    prefService.set(prefs.LOG_LEVEL, value);
 });
 
 /**
@@ -126,8 +126,8 @@ configPanel.port.on('change-log-level', (value) => {
  * their original value when the add-on is unloaded.
  */
 unload(function() {
-    prefService.reset(UITOUR_ENABLED);
-    prefService.reset(REQUIRE_SECURE);
-    prefService.reset(TESTING_ORIGINS);
-    prefService.reset(LOG_LEVEL);
+    prefService.reset(prefs.UITOUR_ENABLED);
+    prefService.reset(prefs.REQUIRE_SECURE);
+    prefService.reset(prefs.TESTING_ORIGINS);
+    prefService.reset(prefs.LOG_LEVEL);
 });
