@@ -73,7 +73,7 @@ const configPanel = Panel({
 function handleConfigPanelShow() {
     configPanel.port.emit('set-uitour-enabled', prefService.get(UITOUR_ENABLED));
     configPanel.port.emit('set-require-secure', prefService.get(REQUIRE_SECURE));
-    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
+    updateTestingOriginsList();
 }
 
 // when the panel is hidden make sure the button state is also unchecked.
@@ -81,6 +81,10 @@ function handleConfigPanelHide() {
     button.state('window', {
         checked: false
     });
+}
+
+function updateTestingOriginsList() {
+    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
 }
 
 configPanel.port.on('toggle-uitour-enabled', (state) => {
@@ -96,14 +100,19 @@ configPanel.port.on('add-to-whitelist', () => {
     if (host) {
         const newOrigins = utils.addToCommaString(host, getTestingOrigins());
         prefService.set(TESTING_ORIGINS, newOrigins);
-        configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
+        updateTestingOriginsList();
     }
 });
 
 configPanel.port.on('remove-selected', (value) => {
     const newOrigins = utils.removeFromCommaString(value, getTestingOrigins());
     prefService.set(TESTING_ORIGINS, newOrigins);
-    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(getTestingOrigins()));
+    updateTestingOriginsList();
+});
+
+configPanel.port.on('remove-all', () => {
+    prefService.reset(TESTING_ORIGINS);
+    updateTestingOriginsList();
 });
 
 /**

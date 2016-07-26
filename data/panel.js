@@ -10,8 +10,9 @@ const disableUITour = document.getElementById('disable-uitour');
 const enableRequireSecure = document.getElementById('enable-require-secure');
 const disableRequireSecure = document.getElementById('disable-require-secure');
 const whitelist = document.getElementById('whitelist');
-const addToWhitelist = document.getElementById('add-to-whitelist');
+const addCurrentSite = document.getElementById('add-current-site');
 const removeSelected = document.getElementById('remove-selected');
+const removeAll = document.getElementById('remove-all');
 
 enableUITour.addEventListener('change', () => {
     self.port.emit('toggle-uitour-enabled', true);
@@ -61,7 +62,7 @@ self.port.on('set-testing-origins', (array) => {
     }
 });
 
-addToWhitelist.addEventListener('click', () => {
+addCurrentSite.addEventListener('click', () => {
     self.port.emit('add-to-whitelist');
 });
 
@@ -70,4 +71,8 @@ removeSelected.addEventListener('click', () => {
     if (selected) {
         self.port.emit('remove-selected', selected);
     }
+});
+
+removeAll.addEventListener('click', () => {
+    self.port.emit('remove-all');
 });
