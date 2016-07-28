@@ -1,0 +1,48 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+:root {
+    --button-green-color: #4caf50;
+    --button-green-hover-color: #66bb6a;
+    --button-green-border-color: #4aa84a;
+}
+
+h1 {
+    text-align: center;
+}
+
+fieldset {
+    margin: 10px 0;
+}
+
+#whitelist {
+    width: 100%;
+    height: 100px;
+    margin: 5px 0 10px;
+}
+
+#add-current-site {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 2px solid var(--button-green-border-color);
+    background: var(--button-green-color);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+#add-current-site:hover,
+#add-current-site:focus {
+    background: var(--button-green-hover-color);
+}
+
+.button-container {
+    display: flex;
+}
+
+.button-container button {
+    flex-grow: 1;
+}

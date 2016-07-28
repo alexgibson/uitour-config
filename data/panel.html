@@ -6,17 +6,24 @@
   <body>
     <form>
       <h1>UITour config</h1>
+      <button id="add-current-site" type="button">Add this site to whitelist</button>
+      <label for="whitelist">Whitelist:</label>
+      <select id="whitelist" name="whitelist" size="6"></select>
+      <div class="button-container">
+        <button id="remove-selected" type="button">Remove selected</button>
+        <button id="remove-all" type="button">Remove all</button>
+      </div>
       <fieldset>
-        <legend>Enabled</legend>
+        <legend>Enabled:</legend>
         <label>
-          <input type="radio" id="enable-uitour" name="enable"> Enabled
+          <input type="radio" id="enable-uitour" name="enable"> Enable
         </label>
         <label>
-          <input type="radio" id="disable-uitour" name="enable"> Disabled
+          <input type="radio" id="disable-uitour" name="enable"> Disable
         </label>
       </fieldset>
       <fieldset>
-        <legend>Require secure</legend>
+        <legend>Require secure:</legend>
         <label>
           <input type="radio" id="enable-require-secure" name="require-secure"> True
         </label>
@@ -24,22 +31,14 @@
           <input type="radio" id="disable-require-secure" name="require-secure"> False
         </label>
       </fieldset>
-      <fieldset>
-        <legend>Whitelist</legend>
-        <select id="whitelist" name="whitelist" size="6"></select>
-        <button id="add-current-site" type="button">Add this site</button>
-        <button id="remove-selected" type="button">Remove selected</button>
-        <button id="remove-all" type="button">Remove all</button>
-      </fieldset>
-      <fieldset>
-        <legend>Log level</legend>
+      <label>Log level:
         <select id="log-level" name="log-level">
           <option value="Error">Error</option>
           <option value="Warn">Warn</option>
           <option value="Debug">Debug</option>
           <option value="All">All</option>
         </select>
-      </fieldset>
+      </label>
     </form>
   </body>
 </html>
