@@ -4,39 +4,58 @@
  */
 
 :root {
-    --button-green-border-color: #4aa84a;
-    --button-green-color: #4caf50;
-    --button-green-hover-color: #66bb6a;
+    --input-border-color: #dedede;
+    --input-color: #fBfBfB;
+    --input-hover-color: #ebebeb;
 }
 
 h1 {
-    text-align: center;
+    font-weight: normal;
+    border-bottom: 1px solid var(--input-border-color);
+    line-height: 2;
 }
 
 fieldset {
+    border: 1px solid var(--input-border-color);
     margin: 10px 0;
+}
+
+label,
+legend {
+    font-weight: bold;
+}
+
+fieldset label {
+    font-weight: normal;
+}
+
+select {
+    background: var(--input-color);
+    border: 1px solid var(--input-border-color);
 }
 
 #whitelist {
     height: 100px;
-    margin: 5px 0 10px;
+    margin: 10px 0;
     width: 100%;
 }
 
-#add-current-site {
-    background: var(--button-green-color);
-    border-radius: 4px;
-    border: 2px solid var(--button-green-border-color);
-    color: #fff;
+button {
+    background: var(--input-color);
+    border: 1px solid var(--input-border-color);
+    color: #333;
     display: block;
-    font-size: 1rem;
-    margin-bottom: 10px;
     width: 100%;
+    padding: 5px;
 }
 
-#add-current-site:hover,
-#add-current-site:focus {
-    background: var(--button-green-hover-color);
+button:hover,
+button:focus {
+    background: var(--input-hover-color);
+}
+
+#add-to-whitelist {
+    margin-bottom: 10px;
 }
 
 .button-container {
@@ -45,4 +64,8 @@ fieldset {
 
 .button-container button {
     flex-grow: 1;
+}
+
+.button-container button:first-child {
+    margin-right: 10px;
 }

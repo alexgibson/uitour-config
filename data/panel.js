@@ -10,7 +10,7 @@ const disableUITour = document.getElementById('disable-uitour');
 const enableRequireSecure = document.getElementById('enable-require-secure');
 const disableRequireSecure = document.getElementById('disable-require-secure');
 const whitelist = document.getElementById('whitelist');
-const addCurrentSite = document.getElementById('add-current-site');
+const addToWhitelist = document.getElementById('add-to-whitelist');
 const removeSelected = document.getElementById('remove-selected');
 const removeAll = document.getElementById('remove-all');
 const logLevel = document.getElementById('log-level');
@@ -67,7 +67,7 @@ self.port.on('set-testing-origins', (array) => {
     }
 });
 
-addCurrentSite.addEventListener('click', () => {
+addToWhitelist.addEventListener('click', () => {
     self.port.emit('add-to-whitelist');
 });
 
