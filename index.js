@@ -48,7 +48,7 @@ setToggleButton();
  */
 const configPanel = Panel({
     width: 300,
-    height: 420,
+    height: 440,
     contentURL: self.data.url('panel.html'),
     contentScriptFile: self.data.url('panel.js'),
     contentStyleFile: self.data.url('panel.css'),

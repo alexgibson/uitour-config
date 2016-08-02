@@ -3,16 +3,43 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Reset
+ * -------------------------------------------------------------------*/
+button,
+select,
+option {
+  -moz-appearance: none;
+}
+
+/**
+ * Variables
+ * -------------------------------------------------------------------*/
 :root {
-    --input-border-color: #dedede;
-    --input-color: #fBfBfB;
+    --input-active-border-color: #858585;
+    --input-active-color: #d4d4d4;
+    --input-border-color: #b1b1b1;
+    --input-color: #fbfbfb;
+    --input-hover-border-color: #b1b1b1;
     --input-hover-color: #ebebeb;
 }
 
+/**
+ * Headings
+ * -------------------------------------------------------------------*/
 h1 {
-    font-weight: normal;
     border-bottom: 1px solid var(--input-border-color);
+    font-weight: normal;
     line-height: 2;
+}
+
+/**
+ * Labels, Legends & Fieldsets
+ * -------------------------------------------------------------------*/
+label,
+legend {
+    font-weight: bold;
+    font: caption;
 }
 
 fieldset {
@@ -20,42 +47,67 @@ fieldset {
     margin: 10px 0;
 }
 
-label,
-legend {
-    font-weight: bold;
-}
-
 fieldset label {
     font-weight: normal;
 }
 
+/**
+ * Select input styles
+ * -------------------------------------------------------------------*/
 select {
-    background: var(--input-color);
+    background-color: var(--input-color);
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNOCwxMkwzLDcsNCw2bDQsNCw0LTQsMSwxWiIgZmlsbD0iIzZBNkE2QSIgLz4KPC9zdmc+Cg==);
+    background-position: calc(100% - 4px) center;
+    background-repeat: no-repeat;
     border: 1px solid var(--input-border-color);
+    box-shadow: 0 0 0 0 transparent;
+    font: caption;
+    height: 24px;
+    outline: 0;
+    padding: 0 24px 0 8px;
+    text-overflow: ellipsis;
+    transition-duration: 250ms;
+    transition-property: box-shadow, border;
 }
 
-#whitelist {
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+select:-moz-focusring * {
+    color: #000;
+    text-shadow: none;
+}
+
+select.multiline {
+    background-image: none;
     height: 100px;
     margin: 10px 0;
+    padding: 0;
     width: 100%;
 }
 
+/**
+ * Button styles
+ * -------------------------------------------------------------------*/
 button {
-    background: var(--input-color);
+    background-color: var(--input-color);
     border: 1px solid var(--input-border-color);
-    color: #333;
-    display: block;
-    width: 100%;
-    padding: 5px;
-}
-
-button:hover,
-button:focus {
-    background: var(--input-hover-color);
-}
-
-#add-to-whitelist {
+    box-shadow: 0 0 0 0 transparent;
+    font: caption;
+    height: 24px;
     margin-bottom: 10px;
+    outline: 0;
+    padding: 0 8px;
+    transition-duration: 250ms;
+    transition-property: box-shadow, border;
+    width: 100%;
+}
+
+button::-moz-focus-inner {
+    border: 0;
+    outline: 0;
 }
 
 .button-container {
@@ -68,4 +120,23 @@ button:focus {
 
 .button-container button:first-child {
     margin-right: 10px;
+}
+
+/* Interactive States */
+button:hover:not(disabled),
+select:hover:not(disabled) {
+    background-color: var(--input-hover-color);
+    border: 1px solid var(--input-hover-border-color);
+}
+
+button:hover:active:not(disabled),
+select:hover:active:not(disabled) {
+    background-color: var(--input-active-color);
+    border: 1px solid var(--input-active-border-color);
+}
+
+button:focus:not(:hover):not(disabled),
+select:focus:not(:hover):not(disabled) {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px rgba(97, 181, 255, 0.75);
 }
