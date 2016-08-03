@@ -126,9 +126,11 @@ configPanel.port.on('change-log-level', (value) => {
  * By AMO policy global preferences must be changed back to
  * their original value when the add-on is unloaded.
  */
-unload(function() {
-    prefService.reset(prefs.UITOUR_ENABLED);
-    prefService.reset(prefs.REQUIRE_SECURE);
-    prefService.reset(prefs.TESTING_ORIGINS);
-    prefService.reset(prefs.LOG_LEVEL);
+unload(function(reason) {
+    if (reason === 'uninstall' || reason === 'disable') {
+        prefService.reset(prefs.UITOUR_ENABLED);
+        prefService.reset(prefs.REQUIRE_SECURE);
+        prefService.reset(prefs.TESTING_ORIGINS);
+        prefService.reset(prefs.LOG_LEVEL);
+    }
 });
