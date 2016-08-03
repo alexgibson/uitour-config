@@ -23,12 +23,8 @@ let button;
 function setToggleButton() {
     button = ToggleButton({
         id: 'uitour-config',
-        label: 'Configure UITour',
-        icon: {
-            '16': './icon-16.png',
-            '32': './icon-32.png',
-            '64': './icon-64.png'
-        },
+        label: 'UITour',
+        icon: './icon.svg',
         onChange: handleToggleButtonChange
     });
 }
