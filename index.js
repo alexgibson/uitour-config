@@ -14,7 +14,7 @@ const { when: unload } = require('sdk/system/unload');
 const { ToggleButton } = require('sdk/ui/button/toggle');
 const { Panel } = require('sdk/panel');
 const utils = require('lib/utils.js');
-const prefs = require('lib/prefs.js');
+const uitourPrefs = require('lib/uitour-prefs.js');
 
 /*******************************************************
  * Add-on ToggleButton
@@ -42,7 +42,7 @@ function handleToggleButtonChange(state) {
 
 // update the our icon for devtools themes
 Prefs.observe('devtools.theme', pref => {
-  setToggleButton(pref === 'dark');
+    setToggleButton(pref === 'dark');
 });
 
 setToggleButton(Prefs.get('devtools.theme') === 'dark');
@@ -62,9 +62,9 @@ const configPanel = Panel({
 
 // when the panel is shown show the current values
 function handleConfigPanelShow() {
-    configPanel.port.emit('set-uitour-enabled', prefService.get(prefs.UITOUR_ENABLED));
-    configPanel.port.emit('set-require-secure', prefService.get(prefs.REQUIRE_SECURE));
-    configPanel.port.emit('set-log-level', prefService.get(prefs.LOG_LEVEL));
+    configPanel.port.emit('set-uitour-enabled', prefService.get(uitourPrefs.UITOUR_ENABLED));
+    configPanel.port.emit('set-require-secure', prefService.get(uitourPrefs.REQUIRE_SECURE));
+    configPanel.port.emit('set-log-level', prefService.get(uitourPrefs.LOG_LEVEL));
     updateTestingOriginsUI();
 }
 
@@ -79,7 +79,7 @@ function handleConfigPanelHide() {
  * browser.uitour.enabled'
  */
 configPanel.port.on('toggle-uitour-enabled', (state) => {
-    prefService.set(prefs.UITOUR_ENABLED, state);
+    prefService.set(uitourPrefs.UITOUR_ENABLED, state);
 });
 
 
@@ -87,34 +87,35 @@ configPanel.port.on('toggle-uitour-enabled', (state) => {
  * browser.uitour.requireSecure
  */
 configPanel.port.on('toggle-require-secure', (state) => {
-    prefService.set(prefs.REQUIRE_SECURE, state);
+    prefService.set(uitourPrefs.REQUIRE_SECURE, state);
 });
 
 
 /*******************************************************
  * browser.uitour.testingOrigins
  */
+
 function updateTestingOriginsUI() {
-    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(utils.getTestingOrigins()));
+    configPanel.port.emit('set-testing-origins', utils.arrayFromCommaString(uitourPrefs.getTestingOrigins()));
 }
 
 configPanel.port.on('add-to-whitelist', () => {
     const host = utils.getHostURL(tabs.activeTab.url);
     if (host) {
-        const newOrigins = utils.addToCommaString(host, utils.getTestingOrigins());
-        prefService.set(prefs.TESTING_ORIGINS, newOrigins);
+        const newOrigins = utils.addToCommaString(host, uitourPrefs.getTestingOrigins());
+        prefService.set(uitourPrefs.TESTING_ORIGINS, newOrigins);
         updateTestingOriginsUI();
     }
 });
 
 configPanel.port.on('remove-selected', (value) => {
-    const newOrigins = utils.removeFromCommaString(value, utils.getTestingOrigins());
-    prefService.set(prefs.TESTING_ORIGINS, newOrigins);
+    const newOrigins = utils.removeFromCommaString(value, uitourPrefs.getTestingOrigins());
+    prefService.set(uitourPrefs.TESTING_ORIGINS, newOrigins);
     updateTestingOriginsUI();
 });
 
 configPanel.port.on('remove-all', () => {
-    prefService.reset(prefs.TESTING_ORIGINS);
+    prefService.reset(uitourPrefs.TESTING_ORIGINS);
     updateTestingOriginsUI();
 });
 
@@ -123,7 +124,7 @@ configPanel.port.on('remove-all', () => {
  * browser.uitour.loglevel
  */
 configPanel.port.on('change-log-level', (value) => {
-    prefService.set(prefs.LOG_LEVEL, value);
+    prefService.set(uitourPrefs.LOG_LEVEL, value);
 });
 
 /**
@@ -132,9 +133,6 @@ configPanel.port.on('change-log-level', (value) => {
  */
 unload(function(reason) {
     if (reason === 'uninstall' || reason === 'disable') {
-        prefService.reset(prefs.UITOUR_ENABLED);
-        prefService.reset(prefs.REQUIRE_SECURE);
-        prefService.reset(prefs.TESTING_ORIGINS);
-        prefService.reset(prefs.LOG_LEVEL);
+        uitourPrefs.resetAll();
     }
 });

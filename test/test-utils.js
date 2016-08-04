@@ -6,8 +6,6 @@
 'use strict';
 
 const utils = require('../lib/utils.js');
-const prefService = require('sdk/preferences/service');
-const prefs = require('lib/prefs.js');
 const testRunner = require('sdk/test');
 
 exports.testGetHostURL = (assert) => {
@@ -82,23 +80,6 @@ exports.testCommaStringFromArray = (assert) => {
     assert.throws(function() {
         utils.commaStringFromArray(arr);
     }, 'Should throw an error if not passed an array.');
-};
-
-exports.testGetTestingOrigins = (assert) => {
-    const host = 'https://www-demo1.allizom.org,https://www.allizom.org';
-
-    assert.strictEqual(prefService.has(prefs.TESTING_ORIGINS), false,
-        'Should not have testingOrigins pref by default');
-
-    utils.getTestingOrigins();
-
-    assert.strictEqual(prefService.get(prefs.TESTING_ORIGINS), '',
-        'Should be empty string when testingOrigins is first created');
-
-    prefService.set(prefs.TESTING_ORIGINS, host);
-
-    assert.strictEqual(prefService.get(prefs.TESTING_ORIGINS), host,
-        'Should return origin values when present.');
 };
 
 testRunner.run(exports);
