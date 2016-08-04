@@ -5,6 +5,8 @@
 
 'use strict';
 
+const {Cu} = require('chrome');
+const Prefs = Cu.import('resource://gre/modules/Preferences.jsm').Preferences;
 const self = require('sdk/self');
 const tabs = require('sdk/tabs');
 const prefService = require('sdk/preferences/service');
@@ -20,11 +22,12 @@ const prefs = require('lib/prefs.js');
 
 let button;
 
-function setToggleButton() {
+function setToggleButton(dark) {
+    const icon = dark ? './icon-inverted.svg' : './icon.svg';
     button = ToggleButton({
         id: 'uitour-config',
         label: 'UITour',
-        icon: './icon.svg',
+        icon: icon,
         onChange: handleToggleButtonChange
     });
 }
@@ -37,7 +40,12 @@ function handleToggleButtonChange(state) {
     }
 }
 
-setToggleButton();
+// update the our icon for devtools themes
+Prefs.observe('devtools.theme', pref => {
+  setToggleButton(pref === 'dark');
+});
+
+setToggleButton(Prefs.get('devtools.theme') === 'dark');
 
 /*******************************************************
  * Add-on UI Panel
