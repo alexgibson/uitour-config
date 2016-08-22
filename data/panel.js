@@ -28,7 +28,11 @@ disableUITour.addEventListener('change', () => {
 });
 
 self.port.on('set-uitour-enabled', (state) => {
-    enableUITour.checked = (state) ? true : false;
+    if (state) {
+        enableUITour.checked = true;
+    } else {
+        disableUITour.checked = true;
+    }
 });
 
 
@@ -44,7 +48,11 @@ disableRequireSecure.addEventListener('change', () => {
 });
 
 self.port.on('set-require-secure', (state) => {
-    enableRequireSecure.checked = (state) ? true : false;
+    if (state) {
+        enableRequireSecure.checked = true;
+    } else {
+        disableRequireSecure.checked = true;
+    }
 });
 
 
