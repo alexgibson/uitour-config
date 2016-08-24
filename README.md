@@ -4,6 +4,8 @@
 
 A Firefox add-on to configure UITour preferences for easier development, testing and debugging.
 
+![](images/screenshot.png?raw=true)
+
 ##Contributing
 Install jpm by following the [instructions on MDN](https://developer.mozilla.org/Add-ons/SDK/Tools/jpm#Installation).
 
