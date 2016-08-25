@@ -5,7 +5,7 @@
 
 'use strict';
 
-const utils = require('../lib/utils.js');
+const utils = require('../lib/utils');
 const testRunner = require('sdk/test');
 
 exports.testGetHostURL = (assert) => {
