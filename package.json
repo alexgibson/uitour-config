@@ -1,7 +1,7 @@
 {
   "title": "UITour Config",
   "name": "uitour-config",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Add-on for configuring UITour preferences.",
   "repository": "https://github.com/alexgibson/uitour-config",
   "main": "index.js",
